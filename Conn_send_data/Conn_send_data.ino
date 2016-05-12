@@ -15,15 +15,15 @@
 
 byte mac_addr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
-IPAddress server_addr(118, 174, 157, 23);
-//IPAddress server_addr(192, 168, 1, 30); // IP of the MySQL *server* here
-char user[] = "--user of mysql--";              // MySQL user login username
-char pass[] = "--password--";            // MySQL user login password
+
+IPAddress server_addr(192, 168, 1, 30); // IP of the MySQL *server* here
+char user[] = "*****";              // MySQL user login username
+char pass[] = "*****";            // MySQL user login password
 
 char INSERT_SQL[] = "INSERT INTO test_arduino.hello_arduino (message) VALUES('Hello, Arduino!')";
 
-const char* ssid = "--SSID--";            //SSID WiFi name
-const char* password = "--password--";  //Password WiFi
+const char* ssid = "*****";            //SSID WiFi name
+const char* password = "*****";  //Password WiFi
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 
