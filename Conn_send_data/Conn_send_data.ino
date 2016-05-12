@@ -43,7 +43,7 @@ void setup() {
   Serial.print(WiFi.localIP());
 
   Serial.println("Connecting..SQL Server..");
-  if (conn.connect(server_addr, 5106, user, pass)) {
+  if (conn.connect(server_addr, 3306, user, pass)) {
     delay(1000);
 
     Serial.println("Recording data...");
