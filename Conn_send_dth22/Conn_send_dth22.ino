@@ -13,6 +13,16 @@
 #include <MySQL_Connection.h>
 #include <MySQL_Cursor.h>
 
+#include "DHT.h"
+#define DHTPIN 2     // what pin we're connected to
+
+
+// Uncomment whatever type you're using!
+//#define DHTTYPE DHT11   // DHT 11
+#define DHTTYPE DHT22   // DHT 22  (AM2302)
+//#define DHTTYPE DHT21   // DHT 21 (AM2301)
+DHT dht(DHTPIN, DHTTYPE);
+
 byte mac_addr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
 
@@ -61,5 +71,16 @@ void setup() {
 }
 
 void loop() {
+  float h = dht.readHumidity();
+  // Read temperature as Celsius (the default)
+  float t = dht.readTemperature();
 
+ Serial.print("Humidity: ");
+  Serial.print(h);
+  Serial.print(" %\t");
+  Serial.print("Temperature: ");
+  Serial.print(t);
+  Serial.print(" *C ");
+
+   delay(2000);
 }
