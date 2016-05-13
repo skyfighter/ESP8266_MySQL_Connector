@@ -57,17 +57,11 @@ void setup() {
     delay(1000);
 
     Serial.println("Recording data...");
-    // Initiate the query class instance
-    MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-    // Execute the query
-    cur_mem->execute(INSERT_SQL);
-    // Note: since there are no results, we do not need to read any data
-    // Deleting the cursor also frees up memory used
-    delete cur_mem;
+ 
   }
   else
     Serial.println("Connection failed.");
-  conn.close();
+  //conn.close(); //ไม่ได้สสั่งผิด conn จึงเหมือนกับ ระะบบติดต่อ database ตลองเวลา
 }
 
 void loop() {
@@ -80,7 +74,15 @@ void loop() {
   Serial.print(" %\t");
   Serial.print("Temperature: ");
   Serial.print(t);
-  Serial.print(" *C ");
+  Serial.println(" *C ");
+
+   // Initiate the query class instance
+    MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
+    // Execute the query
+    cur_mem->execute(INSERT_SQL);
+    // Note: since there are no results, we do not need to read any data
+    // Deleting the cursor also frees up memory used
+    delete cur_mem;
 
    delay(2000);
 }
