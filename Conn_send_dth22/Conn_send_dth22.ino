@@ -30,7 +30,10 @@ IPAddress server_addr(118, 174, 160, 138); // IP of the MySQL *server* here
 char user[] = "conn";            // MySQL user login username
 char pass[] = "tum354527";            // MySQL user login password
 
-char INSERT_SQL[] = "INSERT INTO test_arduino.hello_arduino (message) VALUES('Hello, Arduino!')";
+char INSERT_DATA[] = "INSERT INTO test_arduino.dth22 (temp,message) VALUES (%s,'%s')";
+char query[128];
+char temperature[10];
+
 
 const char* ssid = "iVPN";      //SSID WiFi name
 const char* password = "tum354527";  //Password WiFi
@@ -57,7 +60,7 @@ void setup() {
     delay(1000);
 
     Serial.println("Recording data...");
- 
+
   }
   else
     Serial.println("Connection failed.");
@@ -69,20 +72,22 @@ void loop() {
   // Read temperature as Celsius (the default)
   float t = dht.readTemperature();
 
- Serial.print("Humidity: ");
+  Serial.print("Humidity: ");
   Serial.print(h);
   Serial.print(" %\t");
   Serial.print("Temperature: ");
   Serial.print(t);
   Serial.println(" *C ");
 
-   // Initiate the query class instance
-    MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-    // Execute the query
-    cur_mem->execute(INSERT_SQL);
-    // Note: since there are no results, we do not need to read any data
-    // Deleting the cursor also frees up memory used
-    delete cur_mem;
-
-   delay(2000);
+  // Initiate the query class instance
+  MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
+  // Save
+  dtostrf(t, 1, 1, temperature);
+  sprintf(query, INSERT_DATA, temperature, "test sensor");
+  // Execute the query
+  cur_mem->execute(query);
+  // Note: since there are no results, we do not need to read any data
+  // Deleting the
+  delete cur_mem;
+  delay(2000);
 }
