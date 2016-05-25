@@ -17,13 +17,13 @@ byte mac_addr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
 
 IPAddress server_addr(118, 174, 160, 138); // IP of the MySQL *server* here
-char user[] = "conn";            // MySQL user login username
-char pass[] = "tum354527";            // MySQL user login password
+char user[] = "***";                      // MySQL user login username
+char pass[] = "****";                 // MySQL user login password
 
 char INSERT_SQL[] = "INSERT INTO test_arduino.hello_arduino (message) VALUES('Hello, Arduino!')";
 
-const char* ssid = "iVPN";      //SSID WiFi name
-const char* password = "tum354527";  //Password WiFi
+const char* ssid = "****";            //SSID WiFi name
+const char* password = "****";   //Password WiFi
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 
@@ -43,7 +43,7 @@ void setup() {
   Serial.print(WiFi.localIP());
 
   Serial.println("Connecting..SQL Server..");
-  if (conn.connect(server_addr, 5106, user, pass)) {  //
+  if (conn.connect(server_addr, 3306, user, pass)) {  //MySQL port 3306.
     delay(1000);
 
     Serial.println("Recording data...");
