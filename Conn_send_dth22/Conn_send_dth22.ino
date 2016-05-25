@@ -14,7 +14,7 @@
 #include <MySQL_Cursor.h>
 
 #include "DHT.h"
-#define DHTPIN 2     // what pin we're connected to DHT
+#define DHTPIN 2     // What pin we're connected to DHT
 
 
 // Uncomment whatever type you're using!
@@ -25,24 +25,18 @@ DHT dht(DHTPIN, DHTTYPE);
 
 byte mac_addr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
-
-<<<<<<< HEAD
-IPAddress server_addr(, , , ); // IP of the MySQL *server* here
-char user[] = "--user of mysql--";            // MySQL user login username
-char pass[] = "--password--";            // MySQL user login password
-=======
 IPAddress server_addr(118, 174, 160, 138);  // IP of the MySQL *server* here
-char user[] = "***";                       // MySQL user login username
-char pass[] = "***";                  // MySQL user login password
->>>>>>> refs/remotes/origin/master
+char user[] = "***";                        // MySQL user login username
+char pass[] = "***";                        // MySQL user login password
+
 
 char INSERT_DATA[] = "INSERT INTO test_arduino.dth22 (temp,message) VALUES (%s,'%s')";
 char query[128];
 char temperature[10];
 
 
-const char* ssid = "***";            //SSID WiFi name
-const char* password = "****";   //Password WiFi
+const char* ssid = "***";             //SSID WiFi name
+const char* password = "****";        //Password WiFi
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 
