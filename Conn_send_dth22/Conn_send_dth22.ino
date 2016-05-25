@@ -13,6 +13,16 @@
 #include <MySQL_Connection.h>
 #include <MySQL_Cursor.h>
 
+#include "DHT.h"
+#define DHTPIN 2     // what pin we're connected to
+
+
+// Uncomment whatever type you're using!
+//#define DHTTYPE DHT11   // DHT 11
+#define DHTTYPE DHT22   // DHT 22  (AM2302)
+//#define DHTTYPE DHT21   // DHT 21 (AM2301)
+DHT dht(DHTPIN, DHTTYPE);
+
 byte mac_addr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
 
@@ -20,7 +30,10 @@ IPAddress server_addr(118, 174, 160, 138); // IP of the MySQL *server* here
 char user[] = "conn";            // MySQL user login username
 char pass[] = "tum354527";            // MySQL user login password
 
-char INSERT_SQL[] = "INSERT INTO test_arduino.hello_arduino (message) VALUES('Hello, Arduino!')";
+char INSERT_DATA[] = "INSERT INTO test_arduino.dth22 (temp,message) VALUES (%s,'%s')";
+char query[128];
+char temperature[10];
+
 
 const char* ssid = "iVPN";      //SSID WiFi name
 const char* password = "tum354527";  //Password WiFi
@@ -47,19 +60,34 @@ void setup() {
     delay(1000);
 
     Serial.println("Recording data...");
-    // Initiate the query class instance
-    MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-    // Execute the query
-    cur_mem->execute(INSERT_SQL);
-    // Note: since there are no results, we do not need to read any data
-    // Deleting the cursor also frees up memory used
-    delete cur_mem;
+
   }
   else
     Serial.println("Connection failed.");
-  conn.close();
+  //conn.close(); //ไม่ได้สสั่งผิด conn จึงเหมือนกับ ระะบบติดต่อ database ตลองเวลา
 }
 
 void loop() {
+  float h = dht.readHumidity();
+  // Read temperature as Celsius (the default)
+  float t = dht.readTemperature();
 
+  Serial.print("Humidity: ");
+  Serial.print(h);
+  Serial.print(" %\t");
+  Serial.print("Temperature: ");
+  Serial.print(t);
+  Serial.println(" *C ");
+
+  // Initiate the query class instance
+  MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
+  // Save
+  dtostrf(t, 1, 1, temperature);
+  sprintf(query, INSERT_DATA, temperature, "test sensor");
+  // Execute the query
+  cur_mem->execute(query);
+  // Note: since there are no results, we do not need to read any data
+  // Deleting the
+  delete cur_mem;
+  delay(2000);
 }
