@@ -26,7 +26,7 @@ DHT dht(DHTPIN, DHTTYPE);
 byte mac_addr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
 
-IPAddress server_addr(118, 174, 160, 138); // IP of the MySQL *server* here
+IPAddress server_addr(118, 174, 160, 88); // IP of the MySQL *server* here
 char user[] = "conn";            // MySQL user login username
 char pass[] = "tum354527";            // MySQL user login password
 
