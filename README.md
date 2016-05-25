@@ -1,6 +1,6 @@
 # ESP8266 MySQL Connector
 
-  ใช้ MySQL Connector/Arduino เป็น Lib หลักการติดต่อข้อมูลระว่าง Arduino (Node MCU) และ MySQL โดยใช้งาน MySQL Connector 1.1.1a หรืออ่านได้จาก link นี้ https://github.com/ChuckBell/MySQL_Connector_Arduino
+  ใช้ MySQL Connector/Arduino เป็น Lib หลักการติดต่อข้อมูลระว่าง Arduino (Node MCU) และ MySQL โดยใช้งาน MySQL Connector 1.1.1a หรืออ่านได้จาก https://github.com/ChuckBell/MySQL_Connector_Arduino
 ซึ่งใน Lib ของ MySQL Connector/Arduino จะใช้ Arduino uno ร่วมกับ Ethernet shield หรือ Wi-Fi shield ในติดต่อกับ Network แต่ใน ESP8266 MySQL Connector จะใช้ NodeMCU V2 (ESP12-E) โดยติดต่อ Network ผ่าน Wi-Fi
 
 ## Conn send dth22
