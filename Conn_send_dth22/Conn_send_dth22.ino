@@ -25,18 +25,18 @@ DHT dht(DHTPIN, DHTTYPE);
 
 byte mac_addr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
-IPAddress server_addr(118, 174, 187, 182);  // IP of the MySQL *server* here
+IPAddress server_addr(192, 168, 1, 30);  // IP of the MySQL *server* here
 char user[] = "conn";                        // MySQL user login username
 char pass[] = "tum354527";                        // MySQL user login password
 
 
-char INSERT_DATA[] = "INSERT INTO test_arduino.dth22 (temp,message) VALUES (%s,'%s')";
+char INSERT_DATA[] = "INSERT INTO Test.temp (temp,message) VALUES (%s,'%s')";
 char query[128];
 char temperature[10];
 
 
-const char* ssid = "iVPN";             //SSID WiFi name
-const char* password = "tum354527";        //Password WiFi
+const char* ssid = "Home_F2";             //SSID WiFi name
+const char* password = "home391418";        //Password WiFi
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 
@@ -56,7 +56,7 @@ void setup() {
   Serial.print(WiFi.localIP());
 
   Serial.println("Connecting..SQL Server..");
-  if (conn.connect(server_addr, 5106, user, pass)) {  //Mysql port 3306.
+  if (conn.connect(server_addr, 3306, user, pass)) {  //Mysql port 3306.
     delay(1000);
 
     Serial.println("Recording data...");
