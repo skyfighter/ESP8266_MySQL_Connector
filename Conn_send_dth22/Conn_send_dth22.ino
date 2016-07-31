@@ -30,10 +30,10 @@ char user[] = "--user of mysql--";                        // MySQL user login us
 char pass[] = "--password--";                        // MySQL user login password
 
 
-char INSERT_DATA[] = "INSERT INTO Test.temp (temp,message) VALUES (%s,'%s')";
+char INSERT_DATA[] = "INSERT INTO Test.temp (temp,hum) VALUES (%s,%s)";
 char query[128];
 char temperature[10];
-
+char humidity[10];
 
 const char* ssid = "Home_F2";             //SSID WiFi name
 const char* password = "home391418";        //Password WiFi
@@ -83,7 +83,8 @@ void loop() {
   MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
   // Save
   dtostrf(t, 1, 1, temperature);
-  sprintf(query, INSERT_DATA, temperature, "test sensor");
+  dtostrf(h, 1, 1, humidity);
+  sprintf(query, INSERT_DATA, temperature, humidity);
   // Execute the query
   cur_mem->execute(query);
   // Note: since there are no results, we do not need to read any data
