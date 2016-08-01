@@ -19,11 +19,11 @@ IPAddress server_addr(101, 51, 125, 181);  // IP of the MySQL *server* here
 char user[] = "conn";                        // MySQL user login username
 char pass[] = "tum354527";                        // MySQL user login password
 
-
-char INSERT_DATA[] = "INSERT INTO Test.sw (%s) VALUES (%s)";
+char INSERT_DATA[] = "INSERT INTO Test.sw (s%d) VALUES (%d)";
 char query[128];
-char sw_conn[10];
-int sw;
+int sw_status = 0;
+int senser_no = 1; // ตำแหน่งของ sw 1-14
+
 
 const char* ssid = "iVPN";             //SSID WiFi name
 const char* password = "tum354527";        //Password WiFi
@@ -50,7 +50,8 @@ void setup() {
     delay(1000);
 
     Serial.println("Recording data...");
-
+    //sprintf(query, pre_INSERT_DATA,"s1");
+    //Serial.println(query);
   }
   else
     Serial.println("Connection failed.");
@@ -58,15 +59,12 @@ void setup() {
 }
 
 void loop() {
-  sw = 1;
-  
+
   // Initiate the query class instance
   MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-
-  // int >> char
-  dtostrf(sw, 1, 1, sw_conn);
-
-  sprintf(query, INSERT_DATA,sw_conn);
+  
+  sprintf(query, INSERT_DATA,senser_no,sw_status);
+  Serial.println(query);
   // Execute the query
   cur_mem->execute(query);
   // Note: since there are no results, we do not need to read any data
