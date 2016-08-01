@@ -25,7 +25,7 @@ DHT dht(DHTPIN, DHTTYPE);
 
 byte mac_addr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
-IPAddress server_addr(192, 168, 1, 30);  // IP of the MySQL *server* here
+IPAddress server_addr(, , , );  // IP of the MySQL *server* here
 char user[] = "--user of mysql--";                        // MySQL user login username
 char pass[] = "--password--";                        // MySQL user login password
 
@@ -35,8 +35,8 @@ char query[128];
 char temperature[10];
 char humidity[10];
 
-const char* ssid = "Home_F2";             //SSID WiFi name
-const char* password = "home391418";        //Password WiFi
+const char* ssid = "--SSID--";             //SSID WiFi name
+const char* password = "--password--";        //Password WiFi
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 
@@ -56,7 +56,7 @@ void setup() {
   Serial.print(WiFi.localIP());
 
   Serial.println("Connecting..SQL Server..");
-  if (conn.connect(server_addr, 3306, user, pass)) {  //Mysql port 3306.
+  if (conn.connect(server_addr, 13006, user, pass)) {  //Mysql port 3306.
     delay(1000);
 
     Serial.println("Recording data...");
@@ -90,5 +90,5 @@ void loop() {
   // Note: since there are no results, we do not need to read any data
   // Deleting the
   delete cur_mem;
-  delay(2000);
+  delay(60000);
 }
