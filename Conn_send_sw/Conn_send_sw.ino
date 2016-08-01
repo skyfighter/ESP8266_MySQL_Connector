@@ -13,27 +13,17 @@
 #include <MySQL_Connection.h>
 #include <MySQL_Cursor.h>
 
-#include "DHT.h"
-#define DHTPIN 2     // What pin we're connected to DHT
-
-
-// Uncomment whatever type you're using!
-//#define DHTTYPE DHT11   // DHT 11
-#define DHTTYPE DHT22     // DHT 22  (AM2302)
-//#define DHTTYPE DHT21   // DHT 21 (AM2301)
-DHT dht(DHTPIN, DHTTYPE);
-
 byte mac_addr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
 IPAddress server_addr(, , , );  // IP of the MySQL *server* here
 char user[] = "--user of mysql--";                        // MySQL user login username
 char pass[] = "--password--";                        // MySQL user login password
 
-
-char INSERT_DATA[] = "INSERT INTO Test.temp (temp,hum) VALUES (%s,%s)";
+char INSERT_DATA[] = "INSERT INTO Test.sw (s%d) VALUES (%d)";
 char query[128];
-char temperature[10];
-char humidity[10];
+int sw_status = 0;
+int senser_no = 1; // ตำแหน่งของ sw 1-14
+
 
 const char* ssid = "--SSID--";             //SSID WiFi name
 const char* password = "--password--";        //Password WiFi
@@ -60,7 +50,8 @@ void setup() {
     delay(1000);
 
     Serial.println("Recording data...");
-
+    //sprintf(query, pre_INSERT_DATA,"s1");
+    //Serial.println(query);
   }
   else
     Serial.println("Connection failed.");
@@ -68,27 +59,16 @@ void setup() {
 }
 
 void loop() {
-  float h = dht.readHumidity();
-  // Read temperature as Celsius (the default)
-  float t = dht.readTemperature();
-
-  Serial.print("Humidity: ");
-  Serial.print(h);
-  Serial.print(" %\t");
-  Serial.print("Temperature: ");
-  Serial.print(t);
-  Serial.println(" *C ");
 
   // Initiate the query class instance
   MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-  // Save
-  dtostrf(t, 1, 1, temperature);
-  dtostrf(h, 1, 1, humidity);
-  sprintf(query, INSERT_DATA, temperature, humidity);
+  
+  sprintf(query, INSERT_DATA,senser_no,sw_status);
+  Serial.println(query);
   // Execute the query
   cur_mem->execute(query);
   // Note: since there are no results, we do not need to read any data
   // Deleting the
   delete cur_mem;
-  delay(60000);
+  delay(1000);
 }
