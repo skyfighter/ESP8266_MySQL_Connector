@@ -25,9 +25,9 @@ DHT dht(DHTPIN, DHTTYPE);
 
 byte mac_addr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
-IPAddress server_addr(, , , );  // IP of the MySQL *server* here
-char user[] = "--user of mysql--";                        // MySQL user login username
-char pass[] = "--password--";                        // MySQL user login password
+IPAddress server_addr(101, 51, 125, 181);  // IP of the MySQL *server* here
+char user[] = "conn";                        // MySQL user login username
+char pass[] = "tum354527";                        // MySQL user login password
 
 
 char INSERT_DATA[] = "INSERT INTO Test.temp (temp,hum) VALUES (%s,%s)";
@@ -35,8 +35,8 @@ char query[128];
 char temperature[10];
 char humidity[10];
 
-const char* ssid = "--SSID--";             //SSID WiFi name
-const char* password = "--password--";        //Password WiFi
+const char* ssid = "iVPN";             //SSID WiFi name
+const char* password = "tum354527";        //Password WiFi
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 
