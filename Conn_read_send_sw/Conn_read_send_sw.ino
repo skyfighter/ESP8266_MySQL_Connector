@@ -84,8 +84,9 @@ void setup() {
 }
 
 void toggle() {
-  sw_status = !sw_status;
-  digitalWrite(5, sw_status);
+  
+  sw_status = !sw_read_out;
+  //digitalWrite(5, sw_status);
   Serial.print("Status change...> ");
   Serial.println(sw_status);
   toggle_sw = 1;
@@ -94,7 +95,22 @@ void toggle() {
 
 void loop() {
   
-      row_values *row = NULL;
+ if ( toggle_sw == 1) {
+    // Initiate the query class instance
+    MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
+
+    sprintf(query, INSERT_DATA, senser_no, sw_status);
+    Serial.println(query);
+    // Execute the query
+    cur_mem->execute(query);
+    // Note: since there are no results, we do not need to read any data
+    // Deleting the
+    delete cur_mem;
+    toggle_sw = 0;
+
+  }
+  
+        row_values *row = NULL;
      // delay(1000);
 
       // Initiate the query class instance
@@ -124,26 +140,6 @@ void loop() {
         digitalWrite(5, HIGH);
            }
       else digitalWrite(5, LOW);
-
-
-  
-  if ( toggle_sw == 1) {
-    // Initiate the query class instance
-    MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-
-    sprintf(query, INSERT_DATA, senser_no, sw_status);
-    Serial.println(query);
-    // Execute the query
-    cur_mem->execute(query);
-    // Note: since there are no results, we do not need to read any data
-    // Deleting the
-    delete cur_mem;
-    toggle_sw = 0;
-
-  }
-  /*
-
-  */
 
 
   //delay(1000);
