@@ -71,7 +71,7 @@ void setup() {
   Serial.print(WiFi.localIP());
 
   Serial.println("Connecting..SQL Server..");
-  if (conn.connect(server_addr, 13006, user, pass)) {  //Mysql port 3306.
+  if (conn.connect(server_addr, 3306, user, pass)) {  //Mysql port 3306.
     delay(1000);
 
     Serial.println("Recording data...");
@@ -88,21 +88,12 @@ void toggle() {
   Serial.print("Status change...> ");
   Serial.println(sw_status);
   
-    // Initiate the query class instance
-  MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-
-  sprintf(query, INSERT_DATA, senser_no, sw_status);
-  Serial.println(query);
-  // Execute the query
-  cur_mem->execute(query);
-  // Note: since there are no results, we do not need to read any data
-  // Deleting the
-  delete cur_mem;
+ 
   
   }
 
 void loop() {
-/*
+
     row_values *row = NULL;
    // delay(1000);
 
@@ -134,15 +125,24 @@ void loop() {
          }
     else digitalWrite(5, LOW); 
 
-    */
+    
 
 
 
   /*
 
+   // Initiate the query class instance
+  MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
 
+  sprintf(query, INSERT_DATA, senser_no, sw_status);
+  Serial.println(query);
+  // Execute the query
+  cur_mem->execute(query);
+  // Note: since there are no results, we do not need to read any data
+  // Deleting the
+  delete cur_mem;
   */
 
   
-  delay(1000);
+  //delay(1000);
 }
