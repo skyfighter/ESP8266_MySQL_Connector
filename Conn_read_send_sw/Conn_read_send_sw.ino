@@ -36,6 +36,7 @@ int senser_no = 1; // ตำแหน่งของ sw 1-14
 //------------SEND------------
 char INSERT_DATA[] = "INSERT INTO Test.sw (s%d) VALUES (%d)";
 char query[128];
+int toggle_sw = 0;
 
 //---------READ--------------
 
@@ -56,8 +57,8 @@ void setup() {
   //delay(10);
 
   attachInterrupt(13, toggle, RISING);
-  toggle();
-  
+
+
 
   WiFi.begin(ssid, password);
   Serial.println("Connected to ");
@@ -75,7 +76,7 @@ void setup() {
     delay(1000);
 
     Serial.println("Recording data...");
-
+    toggle();
   }
   else
     Serial.println("Connection failed.");
@@ -83,66 +84,67 @@ void setup() {
 }
 
 void toggle() {
-   sw_status = !sw_status;
+  sw_status = !sw_status;
   digitalWrite(5, sw_status);
   Serial.print("Status change...> ");
   Serial.println(sw_status);
-  
- 
-  
-  }
+  toggle_sw = 1;
+
+}
 
 void loop() {
+  
+      row_values *row = NULL;
+     // delay(1000);
 
-    row_values *row = NULL;
-   // delay(1000);
+      // Initiate the query class instance
+      MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
 
-    // Initiate the query class instance
-    MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-   
-    // Execute the query
-    sprintf(query_read,SELECT_DATA,senser_no);
-    cur_mem->execute(query_read);
-    // Fetch the columns (required) but we don't use them.
-    column_names *columns = cur_mem->get_columns();
-    // Read the row (we are only expecting the one)
-    do {
-      row = cur_mem->get_next_row();
-      if (row != NULL) {
-        sw_read_out = atol(row->values[0]);
-      }
-    } while (row != NULL);
-    // Deleting the cursor also frees up memory used
-    delete cur_mem;
-    // Show the result
-    Serial.print("Status senser S");
-    Serial.print(senser_no);
-    Serial.print(" = ");
-    Serial.println(sw_read_out);
+      // Execute the query
+      sprintf(query_read,SELECT_DATA,senser_no);
+      cur_mem->execute(query_read);
+      // Fetch the columns (required) but we don't use them.
+      column_names *columns = cur_mem->get_columns();
+      // Read the row (we are only expecting the one)
+      do {
+        row = cur_mem->get_next_row();
+        if (row != NULL) {
+          sw_read_out = atol(row->values[0]);
+        }
+      } while (row != NULL);
+      // Deleting the cursor also frees up memory used
+      delete cur_mem;
+      // Show the result
+      Serial.print("Status senser S");
+      Serial.print(senser_no);
+      Serial.print(" = ");
+      Serial.println(sw_read_out);
 
-    if (sw_read_out == 1){
-      digitalWrite(5, HIGH); 
-         }
-    else digitalWrite(5, LOW); 
+      if (sw_read_out == 1){
+        digitalWrite(5, HIGH);
+           }
+      else digitalWrite(5, LOW);
 
-    
-
-
-
-  /*
-
-   // Initiate the query class instance
-  MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-
-  sprintf(query, INSERT_DATA, senser_no, sw_status);
-  Serial.println(query);
-  // Execute the query
-  cur_mem->execute(query);
-  // Note: since there are no results, we do not need to read any data
-  // Deleting the
-  delete cur_mem;
-  */
 
   
+  if ( toggle_sw == 1) {
+    // Initiate the query class instance
+    MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
+
+    sprintf(query, INSERT_DATA, senser_no, sw_status);
+    Serial.println(query);
+    // Execute the query
+    cur_mem->execute(query);
+    // Note: since there are no results, we do not need to read any data
+    // Deleting the
+    delete cur_mem;
+    toggle_sw = 0;
+
+  }
+  /*
+
+  */
+
+
   //delay(1000);
 }
