@@ -87,8 +87,8 @@ void toggle() {
   
   sw_status = !sw_read_out;
   //digitalWrite(5, sw_status);
-  Serial.print("Status change...> ");
-  Serial.println(sw_status);
+ // Serial.print("Status change...> ");
+//  Serial.println(sw_status);
   toggle_sw = 1;
 
 }
@@ -100,7 +100,7 @@ void loop() {
     MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
 
     sprintf(query, INSERT_DATA, senser_no, sw_status);
-    Serial.println(query);
+   // Serial.println(query);
     // Execute the query
     cur_mem->execute(query);
     // Note: since there are no results, we do not need to read any data
@@ -131,10 +131,10 @@ void loop() {
       // Deleting the cursor also frees up memory used
       delete cur_mem;
       // Show the result
-      Serial.print("Status senser S");
-      Serial.print(senser_no);
-      Serial.print(" = ");
-      Serial.println(sw_read_out);
+     // Serial.print("Status senser S");
+     // Serial.print(senser_no);
+    //  Serial.print(" = ");
+    //  Serial.println(sw_read_out);
 
       if (sw_read_out == 1){
         digitalWrite(5, HIGH);
