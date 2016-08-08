@@ -5,6 +5,7 @@
 
   ----------MySQL Command --------
   SELECT *  FROM sw ORDER BY Timestamp DESC LIMIT 1; // Select the last record from MySQL table using SQL syntax.
+   ps -ef |grep power
 
 
 
@@ -73,7 +74,7 @@ void setup() {
 
   Serial.println("Connecting..SQL Server..");
   if (conn.connect(server_addr, 3306, user, pass)) {  //Mysql port 3306.
-    delay(1000);
+   // delay(1000);
 
     Serial.println("Recording data...");
     toggle();
