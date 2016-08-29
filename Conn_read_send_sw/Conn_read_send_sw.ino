@@ -5,6 +5,7 @@
 
   ----------MySQL Command --------
   SELECT *  FROM sw ORDER BY Timestamp DESC LIMIT 1; // Select the last record from MySQL table using SQL syntax.
+  SELECT Timestamp,s11  FROM power.enegate_bkk WHERE Timestamp >= '2016-08-08 ' AND Timestamp < '2016-08-09';
    ps -ef |grep power
 
 
@@ -22,8 +23,8 @@
 byte mac_addr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
 IPAddress server_addr(, , , );  // IP of the MySQL *server* here
-char user[] = "--user of mysql--";                        // MySQL user login username
-char pass[] = "--password--";                        // MySQL user login password
+char user[] = "read";                        // MySQL user login username
+char pass[] = "hems";                        // MySQL user login password
 
 // IN & OUT PUT
 

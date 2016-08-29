@@ -24,10 +24,10 @@
 DHT dht(DHTPIN, DHTTYPE);
 
 byte mac_addr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-
+//http://52.220.88.45/
 IPAddress server_addr(, , , );  // IP of the MySQL *server* here
-char user[] = "--user of mysql--";                        // MySQL user login username
-char pass[] = "--password--";                        // MySQL user login password
+char user[] = "read";                        // MySQL user login username
+char pass[] = "hems";                        // MySQL user login password
 
 
 char INSERT_DATA[] = "INSERT INTO Test.temp (temp,hum) VALUES (%s,%s)";
@@ -56,7 +56,7 @@ void setup() {
   Serial.print(WiFi.localIP());
 
   Serial.println("Connecting..SQL Server..");
-  if (conn.connect(server_addr, 13006, user, pass)) {  //Mysql port 3306.
+  if (conn.connect(server_addr, 3306, user, pass)) {  //Mysql port 3306.
     delay(1000);
 
     Serial.println("Recording data...");
