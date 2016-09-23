@@ -15,7 +15,7 @@
 
 byte mac_addr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
-IPAddress server_addr(, , , );  // IP of the MySQL *server* here
+IPAddress server_addr(192, 168, 1, 30);  // IP of the MySQL *server* here
 char user[] = "--user of mysql--";                        // MySQL user login username
 char pass[] = "--password--";                        // MySQL user login password
 
@@ -25,8 +25,8 @@ int sw_status = 0;
 int senser_no = 1; // ตำแหน่งของ sw 1-14
 
 
-const char* ssid = "--SSID--";             //SSID WiFi name
-const char* password = "--password--";        //Password WiFi
+const char* ssid = "Home_F2";             //SSID WiFi name
+const char* password = "home391418";        //Password WiFi
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 

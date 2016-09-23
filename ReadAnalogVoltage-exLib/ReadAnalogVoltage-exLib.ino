@@ -1,38 +1,60 @@
-/*
-  ReadAnalogVoltage
-  Reads an analog input on pin 0, converts it to voltage, and prints the result to the serial monitor.
-  Graphical representation is available using serial plotter (Tools > Serial Plotter menu)
-  Attach the center pin of a potentiometer to pin A0, and the outside pins to +5V and ground.
+//http://henrysbench.capnfatz.com/henrys-bench/arduino-current-measurements/acs712-arduino-ac-current-tutorial/
 
-  This example code is in the public domain.
-*/
+const int sensorIn = A0;
 
-// the setup routine runs once when you press reset:
+double Voltage = 0;
+double Amps = 0;
+double Watt = 0;
+
 void setup() {
-  // initialize serial communication at 9600 bits per second:
   Serial.begin(9600);
 }
 
-// the loop routine runs over and over again forever:
+
+float getVPP()
+{
+  float result;
+
+  int readValue;             //value read from the sensor
+  int maxValue = 0;          // store max value here
+  int minValue = 1024;          // store min value here
+
+  uint32_t start_time = millis();
+  while ((millis() - start_time) < 1000) //sample for 1 Sec
+  {
+    readValue = analogRead(sensorIn);
+    // see if you have a new maxValue
+    if (readValue > maxValue)
+    {
+      //record the maximum sensor value
+      maxValue = readValue;
+    }
+    if (readValue < minValue)
+    {
+      //record the maximum sensor value
+      minValue = readValue;
+    }
+  }
+
+  // Subtract min from max
+  result = ((maxValue - minValue)) / 1024.0;
+
+  return result;
+}
+
 void loop() {
-  // read the input on analog pin 0:
-  int sensorValue = analogRead(A0);
-  // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
-  float voltage = sensorValue * ( 1/ 1023.0);
 
-  float amp = voltage*(30);
-  float watt = amp*220;
-  // print out the value you read:
-  
-   Serial.print("bin:");
-  Serial.print(sensorValue);  
-  
-   Serial.print("V:");
-  Serial.print(voltage,4);
+  Voltage = getVPP();
+  Amps = (Voltage * 30);
+  Watt = (Amps * 220);
 
-   Serial.print(" / A: ");
-  Serial.print(amp,4);
+  Serial.print("Vrms : ");
+  Serial.print(Voltage,4);
 
-  Serial.print(" / W:");
-  Serial.println(watt,4);
+  Serial.print("   Arms : ");
+  Serial.print(Amps,4);
+
+  Serial.print("   W : ");
+  Serial.println(Watt,4);
+
 }

@@ -24,10 +24,51 @@ char INSERT_DATA[] = "INSERT INTO Test.power_esp (watt) VALUES (%s)";
 char query[128];
 char w[10];
 
-const char* ssid = "--SSID--";             //SSID WiFi name
-const char* password = "--password--";        //Password WiFi
+const char* ssid = "Home_F2";             //SSID WiFi name
+const char* password = "home391418";        //Password WiFi
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
+
+
+const int sensorIn = A0;
+
+double Voltage = 0;
+double Amps = 0;
+double Watt = 0;
+
+float getVPP()
+{
+  float result;
+
+  int readValue;             //value read from the sensor
+  int maxValue = 0;          // store max value here
+  int minValue = 1023;          // store min value here
+
+  uint32_t start_time = millis();
+  while ((millis() - start_time) < 1000) //sample for 1 Sec
+  {
+    readValue = analogRead(sensorIn);
+    // see if you have a new maxValue
+    if (readValue > maxValue)
+    {
+      //record the maximum sensor value
+      maxValue = readValue;
+    }
+    if (readValue < minValue)
+    {
+      //record the maximum sensor value
+      minValue = readValue;
+    }
+  }
+
+  // Subtract min from max
+  result = ((maxValue - minValue)) / 1023.0;
+
+  return result;
+}
+
+
+
 
 void setup() {
   Serial.begin(115200);
@@ -57,22 +98,24 @@ void setup() {
 }
 
 void loop() {
-  int sensorValue = analogRead(A0);
-  float voltage = sensorValue * ( 1 / 1023.0);
-  float amp = voltage * (30);
-  float watt = amp * 220;
+  
+  Voltage = getVPP();
+  Amps = (Voltage * 30);
+  Watt = (Amps * 220);
 
-  Serial.print("V: ");
-  Serial.print(voltage);
-  Serial.print(" %\t");
-  Serial.print("Watt: ");
-  Serial.println(watt);
+  Serial.print("Vrms : ");
+  Serial.print(Voltage,4);
 
+  Serial.print("   Arms : ");
+  Serial.print(Amps,4);
+
+  Serial.print("   W : ");
+  Serial.println(Watt,4);
 
   // Initiate the query class instance
   MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
   // Save
-  dtostrf(watt, 1, 1, w);
+  dtostrf(Watt, 1, 1, w);
   sprintf(query, INSERT_DATA, w);
   // Execute the query
   cur_mem->execute(query);
