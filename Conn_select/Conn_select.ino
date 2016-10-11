@@ -45,7 +45,7 @@ void setup() {
   Serial.println(WiFi.localIP());
 
   Serial.println("Connecting..SQL Server..");
-  if (conn.connect(server_addr, 5106, user, pass)) {
+  if (conn.connect(server_addr, 3306, user, pass)) { //Mysql port 3306.
     delay(1000);
 
     row_values *row = NULL;
