@@ -47,8 +47,8 @@ char query_read[128];
 int sw_read_out; // อ่านค่า status ของ sw จาก server
 
 
-const char* ssid = "--SSID--";             //SSID WiFi name
-const char* password = "--password--";        //Password WiFi
+const char* ssid = "Home_F2";             //SSID WiFi name
+const char* password = "home391418";        //Password WiFi
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 
@@ -140,8 +140,10 @@ void loop() {
 
       if (sw_read_out == 1){
         digitalWrite(5, HIGH);
+        Serial.println("SW-ON");
            }
-      else digitalWrite(5, LOW);
+      else {digitalWrite(5, LOW);
+          Serial.println("SW-OFF");}
 
 
   //delay(1000);
