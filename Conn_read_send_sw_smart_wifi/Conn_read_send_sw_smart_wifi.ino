@@ -7,6 +7,17 @@
 #include <MySQL_Connection.h>
 #include <MySQL_Cursor.h>
 
+/*Sonoff Pinout
+LED = 13 
+Relay = 12
+Option = 14
+SW = 0 */
+const int button = 0;     // the number of the pushbutton pin
+const int ledPin =  13;      // the number of the LED pin
+const int relay =  12;      // the number of the relay pin
+
+
+
 char sensor_no[3];
 bool shouldSaveConfig = false;
 
@@ -54,9 +65,10 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   Serial.println();
-  pinMode(5, OUTPUT); // (PIN D1)  LED
-  pinMode(13, INPUT);  // (PIN D7) SW
-  attachInterrupt(13, toggle, RISING);
+  pinMode(relay, OUTPUT); 
+  pinMode(ledPin, OUTPUT); 
+  pinMode(button, INPUT);  
+  attachInterrupt(button, toggle, RISING);
 
   //read configuration from FS json
   Serial.println("mounting FS...");
@@ -100,7 +112,7 @@ void setup() {
   wifiManager.addParameter(&custom_sensor_no);
 
   //reset settings - for testing
-  wifiManager.resetSettings();
+  //wifiManager.resetSettings();
 
   if (!wifiManager.autoConnect("hems_config")) {
     Serial.println("failed to connect and hit timeout");
@@ -192,14 +204,17 @@ void loop() {
   // Serial.print("Status senser S");
   // Serial.print(s_no);
   //  Serial.print(" = ");
-  //  Serial.println(sw_read_out);
+  Serial.print("sw read from sql :");
+    Serial.println(sw_read_out);
 
   if (sw_read_out == 1) {
-    digitalWrite(5, HIGH);
+    digitalWrite(ledPin, LOW);
+    digitalWrite(relay, HIGH);
     Serial.println("SW-ON");
   }
   else {
-    digitalWrite(5, LOW);
+    digitalWrite(ledPin, HIGH);
+    digitalWrite(relay, LOW);
     Serial.println("SW-OFF");
   }
 
