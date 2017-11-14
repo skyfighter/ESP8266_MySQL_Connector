@@ -5,6 +5,8 @@
 
   ----------MySQL Command --------
   SELECT *  FROM sw ORDER BY Timestamp DESC LIMIT 1; // Select the last record from MySQL table using SQL syntax.
+  SELECT Timestamp,s11  FROM power.enegate_bkk WHERE Timestamp >= '2016-08-08 ' AND Timestamp < '2016-08-09';
+   ps -ef |grep power
 
 
 
@@ -20,9 +22,9 @@
 
 byte mac_addr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
-IPAddress server_addr(52, 220, 88, 45);  // IP of the MySQL *server* here
-char user[] = "conn";                        // MySQL user login username
-char pass[] = "tum354527";                        // MySQL user login password
+IPAddress server_addr(, , , );  // IP of the MySQL *server* here
+char user[] = "read";                        // MySQL user login username
+char pass[] = "hems";                        // MySQL user login password
 
 // IN & OUT PUT
 
@@ -45,8 +47,8 @@ char query_read[128];
 int sw_read_out; // อ่านค่า status ของ sw จาก server
 
 
-const char* ssid = "iVPN";             //SSID WiFi name
-const char* password = "tum354527";        //Password WiFi
+const char* ssid = "Home_F2";             //SSID WiFi name
+const char* password = "home391418";        //Password WiFi
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 
@@ -73,7 +75,7 @@ void setup() {
 
   Serial.println("Connecting..SQL Server..");
   if (conn.connect(server_addr, 3306, user, pass)) {  //Mysql port 3306.
-    delay(1000);
+   // delay(1000);
 
     Serial.println("Recording data...");
     toggle();
@@ -138,8 +140,10 @@ void loop() {
 
       if (sw_read_out == 1){
         digitalWrite(5, HIGH);
+        Serial.println("SW-ON");
            }
-      else digitalWrite(5, LOW);
+      else {digitalWrite(5, LOW);
+          Serial.println("SW-OFF");}
 
 
   //delay(1000);
